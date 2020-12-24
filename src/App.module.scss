@@ -1,69 +1,81 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.settings {
+  display:flex;
+  flex-direction: row;
+  .quantity {
+    label {
+      padding-right: 15px;
+    }
+    input {
+    }
+  }
+}
+
 .bar {
-  margin: 0 auto;
   margin-top: 400px;
   height: 50px;
-  width: 9*52.4px;
   border-radius: 25px;
   border: 2px solid black;
+  padding-right: 4px;
 }
 
-.circle-blue {
+.circle {
   display: inline-block;
-  background: linear-gradient(180deg, rgba(132,124,210,1) 0%, rgba(32,234,254,1) 84%);
   margin-left: 5px;
   margin-top: 1px;
+  margin-bottom: 1px;
   border: 1px solid black;
   border-radius: 50%;
   height: 45px;
   width: 45px;
+  &.blue {
+    background: linear-gradient(180deg, rgba(132,124,210,1) 0%, rgba(32,234,254,1) 84%);
+  }
+  &.green {
+    background: linear-gradient(180deg, rgba(175,197,145,1) 0%, rgba(222,245,74,1) 84%);
+  }
+  &.red {
+    background: rgb(252, 40, 3);
+  }
 }
 
-.circle-green {
-  display: inline-block;
-  background: linear-gradient(180deg, rgba(175,197,145,1) 0%, rgba(222,245,74,1) 84%);
-  margin-left: 5px;
-  margin-top: 1px;
-  border: 1px solid black;
-  border-radius: 50%;
-  height: 45px;
-  width: 45px;
-}
-
-.up {
+.arrow {
   background-image: url("./assets/arrow.svg");
   fill: white;
   height: 40px;
   width: 40px;
-  transform: rotate(90deg);
-  margin-top: 2.5px;
-  margin-left: 2.5px;
-}
-
-.down {
-  background-image: url("./assets/arrow.svg");
-  fill: white;
-  height: 40px;
-  width: 40px;
-  transform: rotate(270deg);
-  margin-top: 2.5px;
-  margin-left: 2.5px;
-}
-
-.left {
-  background-image: url("./assets/arrow.svg");
-  fill: white;
-  height: 40px;
-  width: 40px;
-  margin-top: 2.5px;
-  margin-left: 2.5px;
-}
-
-.right {
-  background-image: url("./assets/arrow.svg");
-  fill: white;
-  height: 40px;
-  width: 40px;
-  transform: rotate(180deg);
-  margin-top: 2.5px;
-  margin-left: 2.5px;
+  margin-top: 2px;
+  margin-left: 2px;
+  &.up {
+    transform: rotate(90deg);
+  }
+  &.down {
+    transform: rotate(270deg);
+  }
+  &.right {
+    transform: rotate(180deg);
+  }
+  &.top-left {
+    transform: rotate(45deg);
+  }
+  &.top-right {
+    transform: rotate(135deg);
+  }
+  &.bottom-left {
+    transform: rotate(315deg);
+  }
+  &.bottom-right {
+    transform: rotate(225deg);
+  }
 }
