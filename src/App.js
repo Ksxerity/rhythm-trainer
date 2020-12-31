@@ -199,10 +199,6 @@ const Practice = () => {
     })
   }
 
-  // const handleChange = (e) => {
-  //   setSettings(state => ({ ...state, [e.target.name]: e.target.value }))
-  // }
-
   const handleCheckboxChange = (e) => {
     setNewSettings(state => ({ ...state, [e.target.name]: e.target.checked }))
   }
@@ -227,19 +223,22 @@ const Practice = () => {
         arrows and then hit the ctrl key in line with the rhythm of the music.
       </div>
       <div className={styles.settings}>
-        <div className={["form-group", styles.quantity].join(' ')}>
-          <label>Number of Keys</label>
-          <input type="number" className={"form-control"} name="keyQuantity" min={MIN_NUMBER_OF_KEYS} max={MAX_NUMBER_OF_KEYS} value={newSettings.keyQuantity} onChange={handleQuantityChange}></input>
+        <div className={styles["first-column"]}>
+          <div className={styles.quantity}>
+            <label htmlFor="quantity">Number of Keys</label>
+            <input id="quantity" type="number" className={"form-control"} name="keyQuantity" min={MIN_NUMBER_OF_KEYS} max={MAX_NUMBER_OF_KEYS} value={newSettings.keyQuantity} onChange={handleQuantityChange}></input>
+          </div>
+          <div className={["custom-control custom-switch", styles.reverse].join(' ')}>
+            <input type="checkbox" id="reverseSwitch" className="custom-control-input" name="reverseKeyEnabled" onClick={handleCheckboxChange}></input>
+            <label htmlFor="reverseSwitch" className="custom-control-label">Reverse Keys</label>
+            <input type="number" className={"form-control"} name="reverseKeyQuantity" min="1" max="6" value={newSettings.reverseKeyQuantity} onChange={handleQuantityChange} disabled={!newSettings.reverseKeyEnabled}></input>
+          </div>
+          <div className={["custom-control custom-switch", styles["eight-key"]].join(' ')}>
+            <input type="checkbox" id="eightSwitch" className="custom-control-input" name="eightKeyEnabled" onClick={handleCheckboxChange}></input>
+            <label htmlFor="eightSwitch" className="custom-control-label">Eight Keys</label>
+          </div>
         </div>
-        <div className="custom-control custom-switch">
-          <input type="checkbox" id="reverseSwitch" className="custom-control-input" name="reverseKeyEnabled" onClick={handleCheckboxChange}></input>
-          <label htmlFor="reverseSwitch" className="custom-control-label">Reverse Keys</label>
-          <input type="number" className={"form-control"} name="reverseKeyQuantity" min="1" max="6" value={newSettings.reverseKeyQuantity} onChange={handleQuantityChange}></input>
-        </div>
-        <div className="custom-control custom-switch">
-          <input type="checkbox" id="eightSwitch" className="custom-control-input" name="eightKeyEnabled" onClick={handleCheckboxChange}></input>
-          <label htmlFor="eightSwitch" className="custom-control-label">Eight Keys</label>
-        </div>
+        <div className={styles.divider}></div>
         <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
       </div>
       <div className={styles.bar}>
