@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
 import styles from './App.module.scss';
 
 const MAX_NUMBER_OF_KEYS = 13;
 const MIN_NUMBER_OF_KEYS = 6;
 
 const Practice = () => {
+  const [showHelp, setShowHelp] = useState(false);
   const [keySet, setKeySet] = useState([]); // Random numbers indicating arrow orientation
   const [chanceSet, setChanceSet] = useState([]); // Random booleans indiciating chance keys
   const [refs, setRefs] = useState([]); // Refs for each arrow
@@ -60,6 +62,7 @@ const Practice = () => {
   }
 
   const generateChanceNumbers = () => {
+    // Uses the Fisher–Yates Shuffle
     let arrNum = [];
     let arrBool = [];
     for (let i = 0; i < settings.keyQuantity; i++) {
@@ -211,6 +214,14 @@ const Practice = () => {
     setSettings(newSettings);
   }
 
+  const handleShow = () => {
+    setShowHelp(true);
+  }
+
+  const handleClose = () => {
+    setShowHelp(false);
+  }
+
   // INCLUDE MESSAGE THAT FOCUS IS NOT ON THE PLAYING FIELD BUT IS INSTEAD ON THE SETTINGS
   // Settings => color, timer? (show times in a list on the right or something?), press ctrl to finish
   // Modal for instructions?
@@ -219,27 +230,51 @@ const Practice = () => {
       <div className={styles.header}>
         <h1>Rhythm Trainer</h1>
         This app was made to practice inputting random arrow sequences faster. Although it&apos;s called Rhythm trainer, it isn&apos;t made to train your rhythm but instead train
-        the speed at which you can enter arrow inputs. The idea for this app was based off of a game called Audition Online which required the user to quickly input a sequence of
-        arrows and then hit the ctrl key in line with the rhythm of the music.
+        the speed at which you can enter directional key inputs. The idea for this tool was based off of a game which required the user to quickly input a sequence of
+        arrows and then hit the ctrl key in line with the rhythm of the music. However, the trainer here does not require the user to press the ctrl key and will automatically
+        generate a random sequence once all the keys are inputted correctly.
       </div>
-      <div className={styles.settings}>
-        <div className={styles["first-column"]}>
-          <div className={styles.quantity}>
-            <label htmlFor="quantity">Number of Keys</label>
-            <input id="quantity" type="number" className={"form-control"} name="keyQuantity" min={MIN_NUMBER_OF_KEYS} max={MAX_NUMBER_OF_KEYS} value={newSettings.keyQuantity} onChange={handleQuantityChange}></input>
+      <div className={styles["settings-section"]}>
+        <h5>Settings</h5>
+        <button className={styles["help-icon"]} onClick={handleShow}></button>
+        <Modal show={showHelp} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Settings Help Menu</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>
+              <h5>Number of Keys</h5>
+              The number of directional arrow keys generated in each sequence.
+            </div>
+            <div>
+              <h5>Reverse Keys</h5>
+              Allows the generation of red arrow keys that require the user to input the opposite direction shown.
+            </div>
+            <div>
+              <h5>Eight Keys</h5>
+              Allows the generation of diagonal keys for a total of eight different types of input.
+            </div>
+          </Modal.Body>
+        </Modal>
+        <div className={styles.options}>
+          <div className={styles["first-column"]}>
+            <div className={styles.quantity}>
+              <label htmlFor="quantity">Number of Keys</label>
+              <input id="quantity" type="number" className={"form-control"} name="keyQuantity" min={MIN_NUMBER_OF_KEYS} max={MAX_NUMBER_OF_KEYS} value={newSettings.keyQuantity} onChange={handleQuantityChange}></input>
+            </div>
+            <div className={["custom-control custom-switch", styles.reverse].join(' ')}>
+              <input type="checkbox" id="reverseSwitch" className="custom-control-input" name="reverseKeyEnabled" onClick={handleCheckboxChange}></input>
+              <label htmlFor="reverseSwitch" className="custom-control-label">Reverse Keys</label>
+              <input type="number" className={"form-control"} name="reverseKeyQuantity" min="1" max="6" value={newSettings.reverseKeyQuantity} onChange={handleQuantityChange} disabled={!newSettings.reverseKeyEnabled}></input>
+            </div>
+            <div className={["custom-control custom-switch", styles["eight-key"]].join(' ')}>
+              <input type="checkbox" id="eightSwitch" className="custom-control-input" name="eightKeyEnabled" onClick={handleCheckboxChange}></input>
+              <label htmlFor="eightSwitch" className="custom-control-label">Eight Keys</label>
+            </div>
           </div>
-          <div className={["custom-control custom-switch", styles.reverse].join(' ')}>
-            <input type="checkbox" id="reverseSwitch" className="custom-control-input" name="reverseKeyEnabled" onClick={handleCheckboxChange}></input>
-            <label htmlFor="reverseSwitch" className="custom-control-label">Reverse Keys</label>
-            <input type="number" className={"form-control"} name="reverseKeyQuantity" min="1" max="6" value={newSettings.reverseKeyQuantity} onChange={handleQuantityChange} disabled={!newSettings.reverseKeyEnabled}></input>
-          </div>
-          <div className={["custom-control custom-switch", styles["eight-key"]].join(' ')}>
-            <input type="checkbox" id="eightSwitch" className="custom-control-input" name="eightKeyEnabled" onClick={handleCheckboxChange}></input>
-            <label htmlFor="eightSwitch" className="custom-control-label">Eight Keys</label>
-          </div>
+          <div className={styles.divider}></div>
+          <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
         </div>
-        <div className={styles.divider}></div>
-        <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
       </div>
       <div className={styles.bar}>
         {generateKeys()}
